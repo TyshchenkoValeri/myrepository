@@ -1,9 +1,9 @@
 # 1.
 def solve_quadratic_equation(a, b, c):
-    discriminant = b**2 - 4*a*c
+    discriminant = b ** 2 - 4 * a * c
     assert discriminant >= 0, "The equation has complex roots."
-    x1 = (-b + discriminant**0.5) / (2*a)
-    x2 = (-b - discriminant**0.5) / (2*a)
+    x1 = (-b + discriminant ** 0.5) / (2 * a)
+    x2 = (-b - discriminant ** 0.5) / (2 * a)
     return x1, x2
 
 
@@ -15,6 +15,7 @@ try:
     print(f"The roots of the equation: {roots}")
 except (ValueError, AssertionError) as e:
     print("Incorrect input or equation has complex roots:", e)
+
 
 # 2.
 def calculate():
