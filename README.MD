@@ -1,0 +1,1 @@
+This repository contains QA Automation course solutions
