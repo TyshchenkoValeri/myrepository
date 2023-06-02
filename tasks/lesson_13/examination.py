@@ -50,9 +50,13 @@ class HTMLParser:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("url", help="URL of the HTML page")
+    parser.add_argument("url", nargs="?", help="URL of the HTML page")
     args = parser.parse_args()
 
     url = args.url
+    if not url:
+        url = str(input("Enter URL: "))
+
     html_parser = HTMLParser(url)
     html_parser.parse_html_page()
+
