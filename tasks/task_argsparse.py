@@ -26,7 +26,8 @@ def calculate_quadratic_equation(a, b, c):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Program for calculating a quadratic equation.")
     parser.add_argument("-a", type=float, default=0, help="parameter 'a' of the quadratic equation")
-    parser.add_argument("-b", type=float, required=True, help="parameter 'b' of the quadratic equation")
+    parser.add_argument("-b", type=float, required=True,
+                        help="parameter 'b' of the quadratic equation")
     parser.add_argument("-c", type=float, required=True, help="parameter 'c' of the quadratic equation")
 
     args = parser.parse_args()
