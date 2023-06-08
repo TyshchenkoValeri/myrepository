@@ -107,7 +107,7 @@ def save_links(instance, url):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-url', '--url', type=str, help='Please type url in format - [(http|https)://site.com]')
-    parser.add_argument('-pdf', action='store_true', help='Parse PDF file')
+    parser.add_argument('-pdf', help='Parse PDF file')
     args = parser.parse_args()
     if args.url:
         url = args.url
