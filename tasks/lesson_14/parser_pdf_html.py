@@ -110,11 +110,16 @@ def main():
     parser.add_argument('-pdf', action='store_true', help='Parse PDF file')
     args = parser.parse_args()
     if args.url:
-        url = input("Enter the URL: ")
-        save_links(LinkParserHtml, url)
+        url = args.url
     elif args.pdf:
-        url = input("Enter the path to the PDF file: ")
+        url = args.pdf
+    else:
+        url = input("Enter the URL or path to the PDF file: ")
+
+    if url.endswith(".pdf"):
         save_links(LinkParserPDF, url)
+    else:
+        save_links(LinkParserHtml, url)
 
 
 if __name__ == '__main__':
