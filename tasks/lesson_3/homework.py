@@ -1,4 +1,4 @@
-# 1.
+# test_directory.
 word = input("Enter the word: ").lower()
 is_polin = word[::-1]
 print("+" if is_polin == word else "-")

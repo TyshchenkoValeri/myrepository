@@ -45,7 +45,7 @@ class Interface:
     def run(self):
         while True:
             print("\n--- Phone Book Interface ---")
-            print("1. Add record")
+            print("test_directory. Add record")
             print("2. Delete record")
             print("3. Edit record")
             print("4. Show all")
@@ -53,7 +53,7 @@ class Interface:
 
             choice = input("Enter your choice: ")
 
-            if choice == "1":
+            if choice == "test_directory":
                 name = input("Enter name: ")
                 phone = input("Enter phone (format: XXX-XXX-XX_-XX): ")
                 if name and phone and self.phonebook.is_valid_phone(phone):

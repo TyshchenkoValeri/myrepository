@@ -1,4 +1,4 @@
-# 1.
+# test_directory.
 names = ["john", "marta", "james", "amanda", "marianna"]
 capitalized_names = [name.capitalize() for name in names]
 
