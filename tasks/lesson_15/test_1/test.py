@@ -1,6 +1,6 @@
 import pytest
 import os
-from tasks.lesson_15.test_1.my_pars_code import LinkParserPDF, LinkParserHtml, BaseLinkParser, save_links, main
+from tasks.lesson_14.parser_pdf_html import LinkParserPDF, LinkParserHtml, BaseLinkParser, save_links, main
 
 # put file in  directory lesson_15/test_1
 pdf_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '1.pdf')
