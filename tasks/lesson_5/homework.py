@@ -1,4 +1,4 @@
-# 1.
+# test_directory.
 def solve_quadratic_equation(a, b, c):
     discriminant = b ** 2 - 4 * a * c
     assert discriminant >= 0, "The equation has complex roots."

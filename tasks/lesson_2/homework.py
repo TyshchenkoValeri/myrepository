@@ -1,4 +1,4 @@
-# 1.
+# test_directory.
 temp = int(input("Enter the temperature ib Celsius: "))
 temp_far = (temp + 32) * 5/9
 temp_kel = temp + 273.16
@@ -18,7 +18,7 @@ else:
     print("You can't enter a negative value of liters! Try again")
 
 # 3.
-option = int(input("Choose the operation: 1 - UAH --> USD, 2 - USD --> UAH, 3 - UAH --> EUR, 4 - EUR --> UAH): "))
+option = int(input("Choose the operation: test_directory - UAH --> USD, 2 - USD --> UAH, 3 - UAH --> EUR, 4 - EUR --> UAH): "))
 rate_usd = int(input("Enter the rate USD to UAH: "))
 rate_eur = int(input("Enter the rate EUR to UAH: "))
 
