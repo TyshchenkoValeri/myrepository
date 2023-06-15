@@ -1,39 +1,17 @@
 from selenium.webdriver.support import expected_conditions as EC
-import pytest
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.expected_conditions import element_to_be_clickable, visibility_of_element_located
 from selenium.webdriver.support.select import Select
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
 
 first_website = "http://uitestingplayground.com/home"
 second_website = "http://the-internet.herokuapp.com/"
 third_website = "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login"
 
 
-@pytest.fixture(scope="class")
-def setup():
-    driver_service = Service(ChromeDriverManager().install())
-    options = webdriver.ChromeOptions()
-    options.add_argument('headless')
-    driver = webdriver.Chrome(service=self.driver_service, options=self.options)
-    wait = WebDriverWait(self.driver, 20)
-
-    def teardown():
-        driver.quit()
-
-    request.addfinalizer(teardown)
-    return driver
-
-
 class TestSuiteOne:
-    def test_ajax_request(self, setup):
-        driver = setup
+    def test_ajax_request(self, driver, wait):
         driver.get(first_website)
-        wait = WebDriverWait(driver, 20)
 
         button = driver.find_element(by='xpath', value='//a[contains(@href,"/ajax")]')
         button.click()
@@ -46,9 +24,8 @@ class TestSuiteOne:
         expected_text = "Data loaded with AJAX get request."
         assert element.text == expected_text, f"Expected text {expected_text}, but was received {element.text}"
 
-    def test_button_color_change(self, driver):
+    def test_button_color_change(self, driver, wait):
         driver.get(first_website)
-        wait = WebDriverWait(driver, 10)
 
         button = driver.find_element(by='xpath', value='//a[contains(@href,"/click")]')
         button.click()
@@ -63,9 +40,8 @@ class TestSuiteOne:
 
         assert initial_color != updated_color, f"Color is not changed from {initial_color} to {updated_color}"
 
-    def test_button_name_changed(self, driver):
+    def test_button_name_changed(self, driver, wait):
         driver.get(first_website)
-        wait = WebDriverWait(driver, 10)
 
         button = driver.find_element(by='xpath', value='//a[contains(@href,"/textinput")]')
         button.click()
@@ -84,9 +60,8 @@ class TestSuiteOne:
 
         assert button_text != new_button_text, f"The name of the button {button_text} was not changed to {new_button_text}"
 
-    def test_authorization(self, driver):
+    def test_authorization(self, driver, wait):
         driver.get(first_website)
-        wait = WebDriverWait(driver, 12)
 
         button = driver.find_element(by='xpath', value='//a[contains(@href,"/sampleapp")]')
         button.click()
@@ -108,11 +83,10 @@ class TestSuiteOne:
 
         new_status = user_status.text
         assert new_status != status
-        assert entered_username == "Marilyn Manson"
+        assert entered_username == "Marilyn Manson", f"The current name is not equal {entered_username}"
 
-    def test_check_counter(self, driver):
+    def test_check_counter(self, driver, wait):
         driver.get(first_website)
-        wait = WebDriverWait(driver, 5)
 
         button = driver.find_element(by='xpath', value='//a[contains(@href,"/mouseover")]')
         button.click()
@@ -132,9 +106,8 @@ class TestSuiteOne:
 
 
 class TestSuiteTwo:
-    def test_check_title(self, driver):
+    def test_check_title(self, driver, wait):
         driver.get(second_website)
-        wait = WebDriverWait(driver, 20)
 
         title_element = wait.until(EC.visibility_of_element_located((By.XPATH,
                                                                      "//h1[contains(text(),"
@@ -142,12 +115,11 @@ class TestSuiteTwo:
                                                                      "the-internet')]")))
         assert title_element.text == "Welcome to the-internet", "Header is not found"
 
-    def test_authorization(self, driver):
+    def test_authorization(self, driver, wait):
         driver.get(second_website)
-        wait = WebDriverWait(driver, 10)
 
         link = wait.until(EC.visibility_of_element_located((By.XPATH, "//a[contains(text(),'Form "
-                                                                                           "Authentication')]")))
+                                                                      "Authentication')]")))
         link.click()
 
         auth_title_element = driver.find_element(by='xpath', value="//h2[contains(text(),'Login Page')]")
@@ -163,14 +135,13 @@ class TestSuiteTwo:
         submit_button.click()
 
         success_message = wait.until(EC.visibility_of_element_located((By.XPATH, "//div["
-                                                                                                      "@id='flash']")))
+                                                                                 "@id='flash']")))
         assert "You logged into a secure area!" in success_message.text, "No successful login message found"
 
 
 class TestSuiteThree:
-    def test_user_log_in(self, driver):
-        driver.get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login")
-        wait = WebDriverWait(driver, 15)
+    def test_user_log_in(self, driver, wait):
+        driver.get(third_website)
 
         button = wait.until(
             element_to_be_clickable((By.CSS_SELECTOR, 'button.btn.btn-primary.btn-lg[ng-click="customer()"]')))
@@ -183,16 +154,16 @@ class TestSuiteThree:
         select = Select(dropdown)
         select.select_by_visible_text("Neville Longbottom")
 
-        new_button = wait.until(element_to_be_clickable((By.CSS_SELECTOR, 'button.btn.btn-default[type="submit"][ng-show="custId != \'\'"]')))
+        new_button = wait.until(element_to_be_clickable(
+            (By.CSS_SELECTOR, 'button.btn.btn-default[type="submit"][ng-show="custId != \'\'"]')))
 
         new_button.click()
 
         welcome_message = wait.until(visibility_of_element_located((By.CSS_SELECTOR, 'span.fontBig.ng-binding')))
         assert welcome_message.text == 'Neville Longbottom', "User login failed"
 
-    def test_add_customer(self, driver):
+    def test_add_customer(self, driver, wait):
         driver.get(third_website)
-        wait = WebDriverWait(driver, 5)
 
         button = wait.until(
             element_to_be_clickable((By.CSS_SELECTOR, 'button.btn.btn-primary.btn-lg[ng-click="manager()"]')))
@@ -203,10 +174,10 @@ class TestSuiteThree:
         add_button.click()
 
         input_fields = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,
-                                                                                            'input.form-control.ng'
-                                                                                            '-pristine.ng-untouched.ng'
-                                                                                            '-invalid.ng-invalid'
-                                                                                            '-required')))
+                                                                       'input.form-control.ng'
+                                                                       '-pristine.ng-untouched.ng'
+                                                                       '-invalid.ng-invalid'
+                                                                       '-required')))
         first_name_field = input_fields[0]
         last_name_field = input_fields[1]
         post_code_field = input_fields[2]
@@ -218,39 +189,16 @@ class TestSuiteThree:
         add_button = wait.until(
             element_to_be_clickable((By.CSS_SELECTOR, 'button.btn.btn-default[type="submit"][value=""] ')))
         add_button.click()
-
-        message = wait.until(EC.alert_is_present()).text
+        alert = wait.until(EC.alert_is_present())
+        message = alert.text
         assert "Customer added successfully with customer id" in message, "Failed to create account successfully."
+        alert.accept()
 
-    def test_search_customer(self, driver):
+    def test_open_account(self, driver, wait):
         driver.get(third_website)
-        wait = WebDriverWait(driver, 15)
 
         bank_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
-                                                                                  'button.btn.btn-primary.btn-lg[ng-click="manager()"]')))
-        bank_button.click()
-
-        customers_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
-                                                                                       'button.btn.btn-lg.tab[ng-click="showCust()"]')))
-        customers_button.click()
-
-        search_field = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
-                                                                                   'input.form-control.ng-pristine.ng-untouched.ng-valid['
-                                                                                   'placeholder="Search Customer"]['
-                                                                                   'ng-model="searchCustomer"]')))
-        customer_name = "Ron"
-        search_field.send_keys(customer_name)
-
-        customer_name_element = wait.until(
-            EC.presence_of_element_located((By.XPATH, f'//tr//td[text()="{customer_name}"]')))
-        assert customer_name_element.text == customer_name, f"Name {customer_name} not found in the table"
-
-    def test_open_account(self, driver):
-        driver.get(third_website)
-        wait = WebDriverWait(driver, 15)
-
-        bank_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
-                                                                                  'button.btn.btn-primary.btn-lg[ng-click="manager()"]')))
+                                                             'button.btn.btn-primary.btn-lg[ng-click="manager()"]')))
         bank_button.click()
 
         open_account_button = wait.until(
@@ -277,7 +225,30 @@ class TestSuiteThree:
         process_button = wait.until(
             EC.element_to_be_clickable((By.XPATH, '//button[@type="submit" and @value=""]')))
         process_button.click()
-
-        message = wait.until(EC.alert_is_present()).text
+        alert = wait.until(EC.alert_is_present())
+        message = alert.text
         assert 'Account created successfully with account Number' in message, \
             "Failed to create account successfully."
+        alert.accept()
+
+    def test_search_customer(self, driver, wait):
+        driver.get(third_website)
+
+        bank_button = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'button.btn.btn-primary.btn-lg[ng-click="manager()"]')))
+        bank_button.click()
+
+        customers_button = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'button.btn.btn-lg.tab[ng-click="showCust()"]')))
+        customers_button.click()
+
+        search_field = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
+                                                              'input.form-control.ng-pristine.ng-untouched.ng-valid['
+                                                              'placeholder="Search Customer"]['
+                                                              'ng-model="searchCustomer"]')))
+        customer_name = "Ron"
+        search_field.send_keys(customer_name)
+
+        customer_name_element = wait.until(
+            EC.presence_of_element_located((By.XPATH, f'//tr//td[text()="{customer_name}"]')))
+        assert customer_name_element.text == customer_name, f"Name {customer_name} not found in the table"
